@@ -21,7 +21,7 @@ export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
           {meeting.stakeBusiness ? "Stake business" : "Ward meeting"}
         </span>
       </div>
-      <h3 className="mt-3 text-xl font-bold text-slate-900">{formattedDate}</h3>
+      <h2 className="mt-3 text-xl font-bold text-slate-900">{formattedDate}</h2>
       <p className="mt-2 text-slate-600">Presiding: {meeting.presiding}</p>
       <p className="mt-1 text-slate-600">Conducting: {meeting.conducting}</p>
       <p className="mt-4 text-sm font-medium text-indigo-700">View program →</p>
