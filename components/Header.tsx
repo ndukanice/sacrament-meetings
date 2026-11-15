@@ -14,7 +14,7 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <div>
           <Link href="/" className="text-xl font-bold tracking-tight">
-            Springville Ward
+            Isolo Ward, Lagos-Ikotun Stake of Zion
           </Link>
           <p className="text-sm text-slate-300">{currentDate}</p>
         </div>
