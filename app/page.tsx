@@ -43,17 +43,17 @@ export default function HomePage() {
 
       <section className="grid gap-6 md:grid-cols-3">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Weekly</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-600">Weekly</p>
           <h2 className="mt-3 text-2xl font-bold text-slate-900">Current program</h2>
           <p className="mt-3 text-slate-600">Track the latest hymn, prayer, speakers, and service notices for Sunday worship.</p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Archive</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-600">Archive</p>
           <h2 className="mt-3 text-2xl font-bold text-slate-900">Past meetings</h2>
           <p className="mt-3 text-slate-600">Browse older schedules to keep continuity and compare recent activity across weeks.</p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-sm uppercase tracking-[0.2em] text-slate-500">Print</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-slate-600">Print</p>
           <h2 className="mt-3 text-2xl font-bold text-slate-900">Ready to share</h2>
           <p className="mt-3 text-slate-600">Print a clean program for meetings, announcements, and speaker assignments in one view.</p>
         </div>

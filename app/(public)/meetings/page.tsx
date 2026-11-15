@@ -24,7 +24,7 @@ export default async function MeetingsPage(props: MeetingsPageProps) {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm uppercase tracking-[0.25em] text-slate-500">Meeting Archive</p>
+          <p className="text-sm uppercase tracking-[0.25em] text-slate-600">Meeting Archive</p>
           <h1 className="mt-2 text-3xl font-bold text-slate-900">All Sacrament Meetings</h1>
         </div>
         <Link

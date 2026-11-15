@@ -14,7 +14,7 @@ export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
       className="block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
     >
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-600">
           {meeting.meetingType}
         </p>
         <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">

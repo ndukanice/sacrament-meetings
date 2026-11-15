@@ -12,7 +12,7 @@ export function MeetingDetail({ meeting }: { meeting: SacramentMeeting }) {
     <article className="space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm print:rounded-none print:border-0 print:p-0 print:shadow-none">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.25em] text-slate-500">{meeting.meetingType}</p>
+          <p className="text-sm uppercase tracking-[0.25em] text-slate-600">{meeting.meetingType}</p>
           <h1 className="mt-2 text-3xl font-bold text-slate-900">{formattedDate}</h1>
         </div>
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 print:hidden">
@@ -28,11 +28,11 @@ export function MeetingDetail({ meeting }: { meeting: SacramentMeeting }) {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl bg-slate-50 p-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Presiding</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-600">Presiding</p>
           <p className="mt-2 text-lg font-medium text-slate-800">{meeting.presiding}</p>
         </div>
         <div className="rounded-2xl bg-slate-50 p-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Conducting</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-600">Conducting</p>
           <p className="mt-2 text-lg font-medium text-slate-800">{meeting.conducting}</p>
         </div>
       </div>

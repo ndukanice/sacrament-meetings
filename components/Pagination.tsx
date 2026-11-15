@@ -29,7 +29,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
           ← Previous
         </Link>
       ) : (
-        <span className="px-4 py-2 text-slate-400" aria-hidden="true">
+        <span className="px-4 py-2 text-slate-600" aria-hidden="true">
           ← Previous
         </span>
       )}
@@ -43,7 +43,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
           Next →
         </Link>
       ) : (
-        <span className="px-4 py-2 text-slate-400" aria-hidden="true">
+        <span className="px-4 py-2 text-slate-600" aria-hidden="true">
           Next →
         </span>
       )}
