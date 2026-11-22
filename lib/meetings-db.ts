@@ -101,19 +101,57 @@ export async function getCurrentSundayMeeting(today: Date = new Date()): Promise
   return (rows[0] as SacramentMeeting | undefined) ?? null;
 }
 
-// Mutation stubs — will be wired to the database in Week 04 when forms are built.
-export async function addMeeting(data: Omit<SacramentMeeting, "id">): Promise<SacramentMeeting> {
-  void data;
-  throw new Error("addMeeting: database implementation coming in Week 04");
+// Everything in a meeting except the id, which the database assigns.
+export type MeetingInput = Omit<SacramentMeeting, "id">;
+
+// Inserts a new meeting and returns it with its new id.
+// Nested objects/arrays are stored as JSONB, so they are sent as JSON text.
+export async function addMeeting(data: MeetingInput): Promise<SacramentMeeting> {
+  const rows = await sql`
+    INSERT INTO meetings (
+      date, meeting_type, presiding, conducting, announcements,
+      opening_hymn, opening_prayer, ward_business, stake_business,
+      sacrament_hymn, speakers, closing_hymn, closing_prayer
+    ) VALUES (
+      ${data.date}::date, ${data.meetingType}, ${data.presiding}, ${data.conducting},
+      ${data.announcements ?? []}::text[],
+      ${JSON.stringify(data.openingHymn)}::jsonb, ${data.openingPrayer},
+      ${JSON.stringify(data.wardBusiness)}::jsonb, ${data.stakeBusiness},
+      ${JSON.stringify(data.sacramentHymn)}::jsonb, ${JSON.stringify(data.speakers)}::jsonb,
+      ${JSON.stringify(data.closingHymn)}::jsonb, ${data.closingPrayer}
+    )
+    RETURNING ${MEETING_COLUMNS}
+  `;
+
+  return rows[0] as SacramentMeeting;
 }
 
-export async function updateMeeting(id: number, updates: Partial<SacramentMeeting>): Promise<SacramentMeeting | null> {
-  void id;
-  void updates;
-  throw new Error("updateMeeting: database implementation coming in Week 04");
+// Replaces every field of an existing meeting. Returns null if the id doesn't exist.
+export async function updateMeeting(id: number, data: MeetingInput): Promise<SacramentMeeting | null> {
+  const rows = await sql`
+    UPDATE meetings SET
+      date           = ${data.date}::date,
+      meeting_type   = ${data.meetingType},
+      presiding      = ${data.presiding},
+      conducting     = ${data.conducting},
+      announcements  = ${data.announcements ?? []}::text[],
+      opening_hymn   = ${JSON.stringify(data.openingHymn)}::jsonb,
+      opening_prayer = ${data.openingPrayer},
+      ward_business  = ${JSON.stringify(data.wardBusiness)}::jsonb,
+      stake_business = ${data.stakeBusiness},
+      sacrament_hymn = ${JSON.stringify(data.sacramentHymn)}::jsonb,
+      speakers       = ${JSON.stringify(data.speakers)}::jsonb,
+      closing_hymn   = ${JSON.stringify(data.closingHymn)}::jsonb,
+      closing_prayer = ${data.closingPrayer}
+    WHERE id = ${id}
+    RETURNING ${MEETING_COLUMNS}
+  `;
+
+  return (rows[0] as SacramentMeeting | undefined) ?? null;
 }
 
+// Permanently removes a meeting. Returns false if there was no meeting with that id.
 export async function deleteMeeting(id: number): Promise<boolean> {
-  void id;
-  throw new Error("deleteMeeting: database implementation coming in Week 04");
+  const rows = await sql`DELETE FROM meetings WHERE id = ${id} RETURNING id`;
+  return rows.length > 0;
 }
