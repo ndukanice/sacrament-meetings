@@ -18,21 +18,57 @@ if (!process.env.DATABASE_URL) {
 const sql = neon(process.env.DATABASE_URL);
 const rl = createInterface({ input: stdin, output: stdout });
 
-// Hide what is typed for the password (prints * instead).
-async function askHidden(question) {
-  const write = rl._writeToOutput.bind(rl);
-  rl._writeToOutput = (text) => write(text.includes(question) ? text : "*");
-  const answer = await rl.question(question);
-  rl._writeToOutput = write;
-  stdout.write("\n");
-  return answer;
+// Read a password without showing it: the terminal is switched to "raw"
+// mode so each key arrives here, and we print * instead of the character.
+function askHidden(question) {
+  stdout.write(question);
+  return new Promise((resolve) => {
+    let answer = "";
+    stdin.setRawMode(true);
+    stdin.setEncoding("utf8");
+    stdin.resume();
+
+    const onData = (chunk) => {
+      for (const char of chunk) {
+        if (char === "\r" || char === "\n") {
+          stdin.off("data", onData);
+          stdin.setRawMode(false);
+          stdin.pause();
+          stdout.write("\n");
+          resolve(answer);
+          return;
+        }
+        if (char === "\u0003") {
+          // Ctrl + C
+          stdout.write("\n");
+          process.exit(130);
+        }
+        if (char === "\u007f" || char === "\b") {
+          // Backspace
+          if (answer.length > 0) {
+            answer = answer.slice(0, -1);
+            stdout.write("\b \b");
+          }
+          continue;
+        }
+        answer += char;
+        stdout.write("*");
+      }
+    };
+    stdin.on("data", onData);
+  });
 }
 
 const name = (await rl.question("Name (e.g. Bishop Eze): ")).trim();
 const email = (await rl.question("Email: ")).trim().toLowerCase();
+rl.close(); // hand the keyboard over to askHidden
+
+if (!stdin.isTTY) {
+  console.error("Run this in a terminal so the password can be typed privately.");
+  process.exit(1);
+}
 const password = await askHidden("Password (at least 8 characters): ");
 const confirm = await askHidden("Type the password again: ");
-rl.close();
 
 if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
   console.error("Please enter a name and a valid email.");
