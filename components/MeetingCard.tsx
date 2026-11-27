@@ -2,7 +2,13 @@ import Link from "next/link";
 import { DeleteMeetingButton } from "@/components/DeleteMeetingButton";
 import type { SacramentMeeting } from "@/lib/types";
 
-export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
+type MeetingCardProps = {
+  meeting: SacramentMeeting;
+  // Show Edit/Delete only to signed-in bishopric members.
+  canManage?: boolean;
+};
+
+export function MeetingCard({ meeting, canManage = false }: MeetingCardProps) {
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -27,16 +33,18 @@ export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
       </Link>
 
       {/* Leader actions — kept outside the link, since a form can't sit inside a link. */}
-      <div className="flex items-center gap-3 border-t border-slate-100 px-5 py-3">
-        <Link
-          href={`/meetings/${meeting.id}/edit`}
-          aria-label={`Edit meeting on ${formattedDate}`}
-          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
-        >
-          Edit
-        </Link>
-        <DeleteMeetingButton id={meeting.id} label={formattedDate} />
-      </div>
+      {canManage && (
+        <div className="flex items-center gap-3 border-t border-slate-100 px-5 py-3">
+          <Link
+            href={`/meetings/${meeting.id}/edit`}
+            aria-label={`Edit meeting on ${formattedDate}`}
+            className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+          >
+            Edit
+          </Link>
+          <DeleteMeetingButton id={meeting.id} label={formattedDate} />
+        </div>
+      )}
     </article>
   );
 }

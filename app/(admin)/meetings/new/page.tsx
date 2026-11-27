@@ -3,7 +3,8 @@ import { MeetingForm } from "@/components/MeetingForm";
 import { createMeeting } from "@/lib/actions";
 
 export const metadata: Metadata = {
-  title: "Create Meeting | Sacrament Meetings",
+  title: "Create Meeting",
+  description: "Add a new sacrament meeting program: hymns, prayers, speakers, and ward business.",
 };
 
 export default function NewMeetingPage() {

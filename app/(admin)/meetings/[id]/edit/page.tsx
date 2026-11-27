@@ -5,7 +5,8 @@ import { updateMeeting } from "@/lib/actions";
 import { getMeetingById } from "@/lib/meetings-db";
 
 export const metadata: Metadata = {
-  title: "Edit Meeting | Sacrament Meetings",
+  title: "Edit Meeting",
+  description: "Update the program for a sacrament meeting.",
 };
 
 type EditMeetingPageProps = {

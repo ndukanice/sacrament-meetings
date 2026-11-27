@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { auth } from "@/auth";
 import {
   addMeeting,
   deleteMeeting as deleteMeetingFromDb,
@@ -166,10 +167,19 @@ function duplicateDateState(formData: FormData): MeetingFormState {
 
 // ---------- Server Actions ----------
 
+// Never trust the client: pages hide these buttons from signed-out visitors,
+// but anyone can still send a request straight to a Server Action, so each
+// action checks for a signed-in bishopric member before touching the database.
+async function requireSignedIn(): Promise<void> {
+  const session = await auth();
+  if (!session?.user) redirect("/login");
+}
+
 export async function createMeeting(
   prevState: MeetingFormState,
   formData: FormData,
 ): Promise<MeetingFormState> {
+  await requireSignedIn();
   const checked = validate(formData);
   if (!checked.ok) return checked.state;
 
@@ -191,6 +201,7 @@ export async function updateMeeting(
   prevState: MeetingFormState,
   formData: FormData,
 ): Promise<MeetingFormState> {
+  await requireSignedIn();
   const checked = validate(formData);
   if (!checked.ok) return checked.state;
 
@@ -213,6 +224,7 @@ export async function updateMeeting(
 }
 
 export async function deleteMeeting(id: number): Promise<void> {
+  await requireSignedIn();
   try {
     await deleteMeetingFromDb(id);
   } catch (error) {
